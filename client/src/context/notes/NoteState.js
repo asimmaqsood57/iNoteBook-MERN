@@ -46,28 +46,45 @@ const NoteState = (props) => {
 
   // Add a note
 
-  const addNote = (title, descripiton, tag) => {
+  const addNote = (title, description, tag) => {
     //ToDo api call
     let note = {
-      _id: "6146c2cbff2e682943ba0c28",
+      _id: "6146c2cbff2e680c28",
       user: "61459e0c03d8cdd107dba187",
-      title: "Mytitle dgekf added",
-      description: "this is my first send note added ",
-      tag: "hello dfff",
-      date: "2021-09-19T04:55:39.526Z",
+      title: title,
+      description: description,
+      tag: tag,
+      date: "20 21-09-19T04:55:39.526Z",
       __v: 0,
     };
 
-    setNotes(notes.push(note));
+    setNotes(notes.concat(note));
   };
 
   // Delete a note
 
-  const deleteNote = () => {};
+  const deleteNote = (id) => {
+    console.log("deleting the node with id", id);
+
+    const newNotes = notes.filter((note) => {
+      return note._id !== id;
+    });
+
+    setNotes(newNotes);
+  };
 
   // Edit a note
 
-  const editNote = () => {};
+  const editNote = (id, title, description, tag) => {
+    for (let index = 0; index < notes.length; index++) {
+      const element = notes[index];
+      if (element._id === id) {
+        element.title = title;
+        element.description = description;
+        element.tag = tag;
+      }
+    }
+  };
 
   return (
     <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote }}>

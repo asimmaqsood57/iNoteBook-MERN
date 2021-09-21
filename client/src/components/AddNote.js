@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import noteContext from "../context/notes/NoteContext";
 
@@ -7,47 +7,56 @@ const AddNote = () => {
 
   const { addNote } = context;
 
+  const [note, setnote] = useState({
+    note: "",
+    description: "",
+    tag: "Default",
+  });
+
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    console.log("hello");
+    addNote(note.title, note.description, note.tag);
+  };
+
+  const onChange = (e) => {
+    setnote({ ...note, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="container">
       <h2>Add a Note</h2>
 
       <form>
         <div className="mb-3">
-          <label for="exampleInputEmail1" className="form-label">
-            Email address
+          <label htmlFor="exampleInputEmail1" className="form-label">
+            Title
           </label>
           <input
-            type="email"
+            type="text"
+            name="title"
+            onChange={onChange}
             className="form-control"
-            id="exampleInputEmail1"
+            id="title"
             aria-describedby="emailHelp"
           />
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
-          </div>
         </div>
         <div className="mb-3">
           <label for="exampleInputPassword1" className="form-label">
-            Password
+            Description
           </label>
           <input
-            type="password"
+            type="text"
+            name="description"
+            onChange={onChange}
             className="form-control"
-            id="exampleInputPassword1"
+            id="description"
           />
         </div>
-        <div className="mb-3 form-check">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
-          />
-          <label className="form-check-label" for="exampleCheck1">
-            Check me out
-          </label>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
+
+        <button type="submit" onClick={handleClick} className="btn btn-primary">
+          ADD NOTE
         </button>
       </form>
     </div>
