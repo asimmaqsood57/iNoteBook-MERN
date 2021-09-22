@@ -8,7 +8,7 @@ import AddNote from "./AddNote";
 const Notes = () => {
   const context = useContext(noteContext);
 
-  const { notes, addNote, getNotes } = context;
+  const { notes, addNote, getNotes, editNote } = context;
 
   useEffect(() => {
     getNotes();
@@ -17,9 +17,11 @@ const Notes = () => {
   }, []);
 
   const ref = useRef(null);
+  const refClose = useRef(null);
   const updateNote = (currentNote) => {
     ref.current.click();
     setnote({
+      id: currentNote._id,
       etitle: currentNote.title,
       edescription: currentNote.description,
       etag: currentNote.tag,
@@ -27,6 +29,7 @@ const Notes = () => {
   };
 
   const [note, setnote] = useState({
+    id: "",
     etitle: "",
     edescription: "",
     etag: "",
@@ -36,6 +39,10 @@ const Notes = () => {
     e.preventDefault();
 
     console.log("hello");
+
+    editNote(note.id, note.etitle, note.edescription, note.etag);
+
+    refClose.current.click();
   };
 
   const onChange = (e) => {
@@ -121,6 +128,7 @@ const Notes = () => {
             </div>
             <div class="modal-footer">
               <button
+                ref={refClose}
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
