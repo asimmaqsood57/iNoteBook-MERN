@@ -40,7 +40,17 @@ router.post(
         };
         const authToken = await jwt.sign(data, JWT_SECRET);
         console.log(authToken);
-        res.send(newUser);
+
+        let success;
+
+        if (!newUser) {
+          success = false;
+
+          alert("some thing went wrong");
+        } else {
+          success = true;
+          res.json({ newUser, authToken, success });
+        }
       }
     } catch (error) {
       res.status(500).send("some thing went wrong");
@@ -86,7 +96,8 @@ router.post(
         },
       };
       const authToken = await jwt.sign(data, JWT_SECRET);
-      res.send(authToken);
+      let success = true;
+      res.json({ success, authToken });
     } catch (error) {
       console.log("Invalid Credentials");
     }

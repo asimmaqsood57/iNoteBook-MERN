@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  let history = useHistory();
+
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -10,19 +14,28 @@ const Login = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+
+        "User-Agent": "Thunder Client (https://www.thunderclient.io)",
       },
       body: JSON.stringify({
-        email: credentials.email,
-        password: credentials.password,
+        email: email,
+        password: password,
       }),
     });
+
     const json = await response.json(); // parses JSON response into native JavaScript objects
 
     console.log(json);
-  };
 
-  const onchange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    if (json.success) {
+      // save the auth token and redirect
+
+      localStorage.setItem("token", json.authToken);
+
+      history.push("/");
+    } else {
+      alert("Invalid Credentials");
+    }
   };
 
   return (
@@ -34,8 +47,8 @@ const Login = () => {
           </label>
           <input
             type="email"
-            onChange={onchange}
-            value={credentials.email}
+            onChange={(e) => setemail(e.target.value)}
+            value={email}
             className="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
@@ -50,10 +63,12 @@ const Login = () => {
           </label>
           <input
             type="password"
-            value={credentials.password}
+            value={password}
             className="form-control"
             id="exampleInputPassword1"
-            onChange={onchange}
+            onChange={(e) => {
+              setpassword(e.target.value);
+            }}
           />
         </div>
 
