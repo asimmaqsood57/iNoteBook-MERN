@@ -48,17 +48,9 @@ const NoteState = (props) => {
       },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
-    // const json = response.json(); // parses JSON response into native JavaScript objects
+    const json = await response.json(); // parses JSON response into native JavaScript objects
 
-    let note = {
-      _id: "6146c2cbff2e680c28",
-      user: "61459e0c03d8cdd107dba187",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "20 21-09-19T04:55:39.526Z",
-      __v: 0,
-    };
+    let note = json;
 
     setNotes(notes.concat(note));
   };

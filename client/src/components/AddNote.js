@@ -8,9 +8,9 @@ const AddNote = () => {
   const { addNote } = context;
 
   const [note, setnote] = useState({
-    note: "",
+    title: "",
     description: "",
-    tag: "Default",
+    tag: "",
   });
 
   const handleClick = (e) => {
@@ -18,6 +18,8 @@ const AddNote = () => {
 
     console.log("hello");
     addNote(note.title, note.description, note.tag);
+
+    setnote({ title: "", description: "", tag: "" });
   };
 
   const onChange = (e) => {
@@ -36,6 +38,7 @@ const AddNote = () => {
           <input
             type="text"
             name="title"
+            value={note.title}
             onChange={onChange}
             className="form-control"
             id="title"
@@ -49,6 +52,7 @@ const AddNote = () => {
           <input
             type="text"
             name="description"
+            value={note.description}
             onChange={onChange}
             className="form-control"
             id="description"
@@ -61,6 +65,7 @@ const AddNote = () => {
           <input
             type="text"
             name="tag"
+            value={note.tag}
             onChange={onChange}
             className="form-control"
             id="tag"
