@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const Signup = () => {
+const Signup = (props) => {
   const history = useHistory();
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
@@ -34,9 +34,10 @@ const Signup = () => {
 
       localStorage.setItem("token", json.authToken);
 
+      props.showAlert("Your Account is created Successfully", "success");
       history.push("/");
     } else {
-      alert("There is an error internal  server");
+      props.showAlert("There is an error in creating account", "danger");
     }
   };
 

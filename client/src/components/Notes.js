@@ -4,14 +4,19 @@ import NoteItem from "./NoteItem";
 
 import noteContext from "../context/notes/NoteContext";
 import AddNote from "./AddNote";
+import { useHistory } from "react-router-dom";
 
-const Notes = () => {
+const Notes = (props) => {
   const context = useContext(noteContext);
-
+  const history = useHistory();
   const { notes, addNote, getNotes, editNote } = context;
 
   useEffect(() => {
-    getNotes();
+    if (localStorage.getItem("token")) {
+      getNotes();
+    } else {
+      history.push("/login");
+    }
 
     //eslint-disable-next-line
   }, []);
@@ -26,6 +31,8 @@ const Notes = () => {
       edescription: currentNote.description,
       etag: currentNote.tag,
     });
+
+    props.showAlert("updated Successfully", "success");
   };
 
   const [note, setnote] = useState({

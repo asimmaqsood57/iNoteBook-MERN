@@ -1,5 +1,6 @@
 import "./App.css";
 
+import { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -9,26 +10,39 @@ import NoteState from "./context/notes/NoteState";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 function App() {
+  const [alert, setalert] = useState(null);
+
+  const showAlert = (message, type) => {
+    setalert({
+      msg: message,
+      type: type,
+    });
+
+    setTimeout(() => {
+      setalert(null);
+    }, 1500);
+  };
+
   return (
     <>
       <NoteState>
         <Navbar />
-        <Alert message="This is amazing react course" />
+        <Alert alert={alert} />
         <Switch>
           <Route exact path="/About">
             <About />
           </Route>
 
           <Route exact path="/">
-            <Home />
+            <Home showAlert={showAlert} />
           </Route>
 
           <Route exact path="/login">
-            <Login />
+            <Login showAlert={showAlert} />
           </Route>
 
           <Route exact path="/signup">
-            <Signup />
+            <Signup showAlert={showAlert} />
           </Route>
         </Switch>
       </NoteState>
